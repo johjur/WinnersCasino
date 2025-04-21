@@ -25,6 +25,8 @@ import {
   Close as CloseIcon,
 } from '@mui/icons-material';
 import styled from 'styled-components';
+import { soundManager, SoundType } from "../utils/sounds";
+import { SoundSettings } from './SoundSettings';
 
 const MenuButton = styled(IconButton)`
   position: fixed;
@@ -58,6 +60,14 @@ const SidebarContent = styled(Box)`
   height: 100%;
   padding-top: 64px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+`;
+
+const SoundButtonContainer = styled(Box)`
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 `;
 
 const Sidebar: React.FC = () => {
@@ -67,15 +77,24 @@ const Sidebar: React.FC = () => {
   const [openCardGames, setOpenCardGames] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleNavigation = (path: string) => {
+    soundManager.play(SoundType.NAVIGATION);
+    navigate(path);
+    setIsOpen(false);
+  };
+
   const handleCategoryClick = () => {
+    soundManager.play(SoundType.BUTTON_CLICK);
     setOpenCategories(!openCategories);
   };
 
   const handleTableGamesClick = () => {
+    soundManager.play(SoundType.BUTTON_CLICK);
     setOpenTableGames(!openTableGames);
   };
 
   const handleCardGamesClick = () => {
+    soundManager.play(SoundType.BUTTON_CLICK);
     setOpenCardGames(!openCardGames);
   };
 
@@ -122,7 +141,7 @@ const Sidebar: React.FC = () => {
           <List sx={{ mt: 2 }}>
             {/* Home Category */}
             <ListItem disablePadding>
-              <ListItemButton onClick={() => { navigate('/home'); setIsOpen(false); }}>
+              <ListItemButton onClick={() => handleNavigation('/home')}>
                 <ListItemIcon>
                   <HomeIcon sx={{ color: 'white' }} />
                 </ListItemIcon>
@@ -144,7 +163,7 @@ const Sidebar: React.FC = () => {
               <List component="div" disablePadding>
                 {/* Slots */}
                 <ListItem disablePadding sx={{ pl: 4 }}>
-                  <ListItemButton onClick={() => { navigate('/games/slots'); setIsOpen(false); }}>
+                  <ListItemButton onClick={() => handleNavigation('/games/slots')}>
                     <ListItemIcon>
                       <SlotsIcon sx={{ color: 'white' }} />
                     </ListItemIcon>
@@ -165,7 +184,7 @@ const Sidebar: React.FC = () => {
                 <Collapse in={openTableGames} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
                     <ListItem disablePadding sx={{ pl: 8 }}>
-                      <ListItemButton onClick={() => { navigate('/games/roulette'); setIsOpen(false); }}>
+                      <ListItemButton onClick={() => handleNavigation('/games/roulette')}>
                         <ListItemText primary="Roulette" />
                       </ListItemButton>
                     </ListItem>
@@ -185,12 +204,12 @@ const Sidebar: React.FC = () => {
                 <Collapse in={openCardGames} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
                     <ListItem disablePadding sx={{ pl: 8 }}>
-                      <ListItemButton onClick={() => { navigate('/games/blackjack'); setIsOpen(false); }}>
+                      <ListItemButton onClick={() => handleNavigation('/games/blackjack')}>
                         <ListItemText primary="Blackjack" />
                       </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding sx={{ pl: 8 }}>
-                      <ListItemButton onClick={() => { navigate('/games/poker'); setIsOpen(false); }}>
+                      <ListItemButton onClick={() => handleNavigation('/games/poker')}>
                         <ListItemText primary="Poker" />
                       </ListItemButton>
                     </ListItem>
@@ -201,7 +220,7 @@ const Sidebar: React.FC = () => {
 
             {/* Favourites */}
             <ListItem disablePadding>
-              <ListItemButton onClick={() => { navigate('/favourites'); setIsOpen(false); }}>
+              <ListItemButton onClick={() => handleNavigation('/favourites')}>
                 <ListItemIcon>
                   <FavoriteIcon sx={{ color: 'white' }} />
                 </ListItemIcon>
@@ -209,6 +228,11 @@ const Sidebar: React.FC = () => {
               </ListItemButton>
             </ListItem>
           </List>
+
+          {/* Sound button in bottom right */}
+          <SoundButtonContainer>
+            <SoundSettings />
+          </SoundButtonContainer>
         </SidebarContent>
       </Drawer>
     </>

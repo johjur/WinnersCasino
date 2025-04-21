@@ -16,8 +16,21 @@ import { fetchGames, Game, selectAllGames } from "@features/games/gamesSlice";
 import GameCard from "./GameCard";
 import GameModal from "./GameModal";
 import DraggableGameList from "./DraggableGameList";
+import { soundManager, SoundType } from "../utils/sounds";
 
-const GameList: React.FC<{ filterCategory?: string; hideDragDrop?: boolean }> = ({ filterCategory, hideDragDrop }) => {
+interface GameListProps {
+  filterCategory?: string;
+  hideDragDrop?: boolean;
+  onGameHover?: () => void;
+  onGameClick?: () => void;
+}
+
+const GameList: React.FC<GameListProps> = ({ 
+  filterCategory, 
+  hideDragDrop,
+  onGameHover,
+  onGameClick 
+}) => {
   const dispatch = useDispatch<AppDispatch>();
   const games = useSelector(selectAllGames);
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
@@ -48,13 +61,30 @@ const GameList: React.FC<{ filterCategory?: string; hideDragDrop?: boolean }> = 
     : sortedGames;
 
   const openModal = (game: Game) => {
+    soundManager.play(SoundType.CARD_CLICK);
     setSelectedGame(game);
     setModalOpen(true);
   };
 
   const closeModal = () => {
+    soundManager.play(SoundType.MODAL_CLOSE);
     setModalOpen(false);
     setSelectedGame(null);
+  };
+
+  const handleSortChange = (e: any) => {
+    soundManager.play(SoundType.SORT);
+    setSortBy(e.target.value as "name" | "rating" | "activeUsers");
+  };
+
+  const handleOrderChange = (e: any) => {
+    soundManager.play(SoundType.SORT);
+    setSortOrder(e.target.value as "asc" | "desc");
+  };
+
+  const handleDragModeChange = (e: any) => {
+    soundManager.play(SoundType.BUTTON_CLICK);
+    setIsDragMode(e.target.checked);
   };
 
   useEffect(() => {
@@ -69,9 +99,7 @@ const GameList: React.FC<{ filterCategory?: string; hideDragDrop?: boolean }> = 
           <Select
             labelId="sort-by-label"
             value={sortBy}
-            onChange={(e) =>
-              setSortBy(e.target.value as "name" | "rating" | "activeUsers")
-            }
+            onChange={handleSortChange}
             label="Sort By"
           >
             <MenuItem value="name">Name</MenuItem>
@@ -85,7 +113,7 @@ const GameList: React.FC<{ filterCategory?: string; hideDragDrop?: boolean }> = 
           <Select
             labelId="order-label"
             value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
+            onChange={handleOrderChange}
             label="Order"
           >
             <MenuItem value="asc">Ascending</MenuItem>
@@ -98,7 +126,7 @@ const GameList: React.FC<{ filterCategory?: string; hideDragDrop?: boolean }> = 
             control={
               <Switch
                 checked={isDragMode}
-                onChange={(e) => setIsDragMode(e.target.checked)}
+                onChange={handleDragModeChange}
               />
             }
             label="Drag and Drop to Sort"
@@ -118,7 +146,14 @@ const GameList: React.FC<{ filterCategory?: string; hideDragDrop?: boolean }> = 
         <Grid container spacing={3}>
           {filteredGames.map((game, index) => (
             <Grid key={index} sx={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <GameCard game={game} onClick={() => openModal(game)} />
+              <GameCard 
+                game={game} 
+                onClick={() => {
+                  onGameClick?.();
+                  openModal(game);
+                }}
+                onHover={onGameHover}
+              />
             </Grid>
           ))}
         </Grid>

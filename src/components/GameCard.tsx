@@ -6,10 +6,12 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { RootState } from "@store/index";
 import styled, { keyframes } from "styled-components";
+import { soundManager, SoundType } from "../utils/sounds";
 
 type GameCardProps = {
   game: Game;
-  onClick?: () => void; // ✅ allow GameList to pass this
+  onClick?: () => void;
+  onHover?: () => void;
 };
 
 const glassShine = keyframes`
@@ -86,19 +88,27 @@ const GameCardContainer = styled.div`
   }
 `;
 
-const GameCard: React.FC<GameCardProps> = ({ game, onClick }) => {
+const GameCard: React.FC<GameCardProps> = ({ game, onClick, onHover }) => {
   const dispatch = useDispatch();
   const isFavourite = useSelector((state: RootState) =>
     isGameFavourited(state, game.name)
   );
 
   const handleToggleFavourite = (e: React.MouseEvent) => {
-    e.stopPropagation(); // ✅ prevent triggering onClick for opening modal
+    e.stopPropagation();
+    soundManager.play(isFavourite ? SoundType.FAVORITE_REMOVE : SoundType.FAVORITE_ADD);
     dispatch(toggleFavourite(game.name));
   };
 
+  const handleMouseEnter = () => {
+    onHover?.();
+  };
+
   return (
-    <GameCardContainer onClick={onClick}>
+    <GameCardContainer 
+      onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+    >
       <GameImageContainer>
         <GameImage src={game.image} alt={game.name} />
         <GlassOverlay />

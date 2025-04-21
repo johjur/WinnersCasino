@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Modal,
   Backdrop,
@@ -12,6 +12,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { Game } from "@features/games/gamesSlice";
 import { useTheme } from "@mui/material/styles";
+import { soundManager, SoundType } from "../utils/sounds";
 
 type Props = {
   open: boolean;
@@ -23,12 +24,23 @@ const GameModal: React.FC<Props> = ({ open, onClose, game }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  useEffect(() => {
+    if (open) {
+      soundManager.play(SoundType.MODAL_OPEN);
+    }
+  }, [open]);
+
+  const handleClose = () => {
+    soundManager.play(SoundType.MODAL_CLOSE);
+    onClose();
+  };
+
   if (!game) return null;
 
   return (
     <Modal
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
@@ -58,7 +70,7 @@ const GameModal: React.FC<Props> = ({ open, onClose, game }) => {
         >
           <IconButton
             aria-label="close"
-            onClick={onClose}
+            onClick={handleClose}
             sx={{ position: "absolute", top: 8, right: 8 }}
           >
             <CloseIcon />

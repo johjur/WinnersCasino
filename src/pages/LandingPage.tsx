@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Button, Box, Typography, Container } from '@mui/material';
 import { Howl } from 'howler';
 import './LandingPage.css';
+import { soundManager, SoundType } from '../utils/sounds';
 
 // Detailed 3D Coin Component
 const Coin = () => (
@@ -54,7 +55,11 @@ const winSound = new Howl({
   preload: true
 });
 
-const LandingPage: React.FC = () => {
+interface LandingPageProps {
+  onEnterCasino: () => void;
+}
+
+const LandingPage: React.FC<LandingPageProps> = ({ onEnterCasino }) => {
   const navigate = useNavigate();
   const [coins, setCoins] = useState<Array<{ id: number; x: number; y: number }>>([]);
 
@@ -75,10 +80,10 @@ const LandingPage: React.FC = () => {
     };
   }, []);
 
-  const handleEnter = (e: React.MouseEvent) => {
-    e.preventDefault();
-    coinSound.play();
-    navigate('/home', { replace: true });
+  const handleEnterCasino = () => {
+    soundManager.play(SoundType.NAVIGATION);
+    onEnterCasino();
+    navigate('/home');
   };
 
   return (
@@ -191,7 +196,7 @@ const LandingPage: React.FC = () => {
               <Button
                 variant="contained"
                 size="large"
-                onClick={handleEnter}
+                onClick={handleEnterCasino}
                 sx={{
                   background: 'linear-gradient(45deg, #FFD700 30%, #FFA500 90%)',
                   color: '#000',

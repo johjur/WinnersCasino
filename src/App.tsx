@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material/styles';
@@ -10,12 +10,13 @@ import FavouritesPage from './pages/FavouritesPage';
 import LandingPage from './pages/LandingPage';
 import Sidebar from './components/Sidebar';
 import { Box } from '@mui/material';
+import { SoundProvider } from './components/SoundProvider';
 
 interface HomePageProps {
   category?: string;
 }
 
-const AppContent: React.FC = () => {
+const AppContent: React.FC<{ onEnterCasino: () => void }> = ({ onEnterCasino }) => {
   const location = useLocation();
   const isLandingPage = location.pathname === '/';
 
@@ -33,7 +34,7 @@ const AppContent: React.FC = () => {
         }}
       >
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage onEnterCasino={onEnterCasino} />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/favourites" element={<FavouritesPage />} />
           <Route path="/games/slots" element={<HomePage category="slots" />} />
@@ -47,12 +48,20 @@ const AppContent: React.FC = () => {
 };
 
 const App: React.FC = () => {
+  const [shouldPlaySound, setShouldPlaySound] = useState(false);
+
+  const handleEnterCasino = () => {
+    setShouldPlaySound(true);
+  };
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
-          <AppContent />
+          <SoundProvider shouldPlay={shouldPlaySound}>
+            <AppContent onEnterCasino={handleEnterCasino} />
+          </SoundProvider>
         </Router>
       </ThemeProvider>
     </Provider>
