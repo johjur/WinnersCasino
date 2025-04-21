@@ -1,93 +1,74 @@
-# GamesGlobal - Online Gaming Platform
+# GamesGlobal Test - Casino Gaming Platform
 
-A modern, responsive online gaming platform built with React, featuring a collection of casino games including slots, table games, and card games.
+A responsive casino gaming platform built with React and TypeScript, featuring a collection of casino games with advanced sorting and favoriting capabilities.
 
 ## 🎮 Features
 
-- **Modern UI/UX**: Sleek design with smooth animations and transitions
-- **Game Categories**: 
+- **Modern UI/UX**: Clean and intuitive interface with smooth transitions
+- **Game Categories**:
   - Slots
   - Table Games (Roulette)
   - Card Games (Blackjack, Poker)
-- **Favorites System**: Save and organize your favorite games
-- **Drag & Drop**: Customize your game order in favorites
+- **Advanced Game Sorting**:
+  - Sort by Name, Rating, or Active Users
+  - Ascending/Descending order options
+  - Drag and Drop
+- **Game Favoriting**:
+  - Add/remove games to favorites
+  - View favorite games in dedicated section
 - **Responsive Design**: Fully responsive layout for all devices
-- **Category Filtering**: Easy navigation through game categories
-- **Modern Sidebar**: Intuitive navigation with animated sidebar
+- **Game Modal**: Detailed game information with smooth transitions
+- **Sidebar Navigation**: Organized game categories and subcategories
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js (version 14.0 or higher)
+- Node.js (version 20.0 or higher)
 - npm (version 6.0 or higher)
 
 ### Installation
 
-1. Open your terminal and clone the repository:
+1. Clone the repository:
 ```bash
 git clone [repository-url]
 cd gamesGlobal
 ```
 
-2. Install all required dependencies:
+2. Install dependencies:
 ```bash
 npm install
 ```
 
 This will install:
 - React and React DOM
-- TypeScript and types
-- Material-UI components and icons
-- Redux and React-Redux
-- React Router DOM
-- Styled Components
-- Other development dependencies
+- TypeScript
+- Redux and Redux Saga
+- Material-UI
+- SCSS
+- Webpack
+- React Router (optional)
 
-3. Create a local environment file:
-```bash
-cp .env.example .env
-```
-
-4. Start the development server:
+3. Start the development server:
 ```bash
 npm start
 ```
 
-The application will open automatically in your default browser at `http://localhost:3000`.
+The application will be available at `http://localhost:3000`.
 
-### Troubleshooting Common Issues
+## 🛠️ Technical Stack
 
-If you encounter any issues during installation:
+- **Core**:
+  - React
+  - TypeScript
+  - Redux Saga
+  - Webpack
+  - SCSS
+  - Material-UI
 
-1. **Node.js version conflicts**:
-   ```bash
-   nvm install 14
-   nvm use 14
-   ```
-
-2. **Dependency installation errors**:
-   ```bash
-   # Clear npm cache
-   npm cache clean --force
-   # Delete node_modules and reinstall
-   rm -rf node_modules
-   rm package-lock.json
-   npm install
-   ```
-
-3. **Port conflicts**:
-   - If port 3000 is in use, the app will prompt to use a different port
-   - Alternatively, you can manually change the port in `.env`
-
-## 🛠️ Built With
-
-- React
-- TypeScript
-- Material-UI (MUI)
-- Redux (for state management)
-- React Router (for navigation)
-- Styled Components
+- **Optional**:
+  - React Router
+  - Latest Node.js (v20)
 
 ## 📱 Browser Support
 
@@ -98,47 +79,30 @@ If you encounter any issues during installation:
 
 ## 🎯 Usage
 
-1. **Browse Games**: 
-   - Visit the homepage to see all available games
-   - Use category filters to find specific game types
+1. **Browse Games**:
+   - View all available games on the homepage
+   - Use the sidebar to navigate between categories
+   - Click on game cards to view detailed information
 
-2. **Navigation**:
-   - Use the sidebar menu (accessible via the menu button) to navigate between sections
-   - Click on game category cards for quick access to specific game types
+2. **Sorting Games**:
+   - Use the sorting dropdowns to organize games by:
+     - Name
+     - Rating
+     - Active Users
+   - Choose between ascending or descending order
+   - Drag and drop for custom order
 
 3. **Favorites**:
-   - Click the heart icon on any game to add it to favorites
-   - Visit the Favorites section to see all saved games
-   - Drag and drop games to reorder them in your favorites list
+   - Add games to favorites by clicking the favorite button
+   - View and manage favorite games in the Favorites section
+   - Sort favorite games using the same sorting options
 
-## 💻 Development
-
-To run the application in development mode:
-
-```bash
-npm run dev
-```
-
-For production build:
-
-```bash
-npm run build
-```
 
 ## 📝 Additional Notes
 
-- The application uses local storage to persist favorites and game order
-- All game data is managed through Redux store
-- The UI is optimized for both dark and light themes
+- Game data is managed through Redux store
+- Favorites are persisted in local storage
+- The application follows responsive design principles
+- Modal transitions are implemented for smooth user experience
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details 
+Thank you for the opportunity:D
